@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 7 — Лабораторна 1</title>
+    <script>
+        const products = ["Груша", "Гречка", "Горіхи", "Гель для душу"];
+        const quantities = [120, 80, 50, 30];
+        const prices = [25.5, 40, 180, 95];
+
+        let selectedIndex = -1;
+
+        function fun1() {
+            const select = document.getElementById("productSelect");
+            selectedIndex = select.selectedIndex;
+
+            if (selectedIndex === 0) {
+                document.getElementById("quantity").value = "";
+                document.getElementById("price").value = "";
+                document.getElementById("total").value = "";
+                return;
+            }
+
+            document.getElementById("quantity").value = quantities[selectedIndex - 1] + " шт.";
+            document.getElementById("price").value = prices[selectedIndex - 1] + " грн.";
+            document.getElementById("total").value = "";
+        }
+
+        function fun2() {
+            if (selectedIndex <= 0) {
+                alert("Будь ласка, спочатку виберіть товар!");
+                return;
+            }
+
+            const total = quantities[selectedIndex - 1] * prices[selectedIndex - 1];
+            document.getElementById("total").value = "Загальна вартість: " + total.toFixed(2) + " грн";
+        }
+    </script>
+</head>
+
+<body>
+    <h3>Завдання 7</h3>
+    <p>Вибір товару із випадаючого списку. Після вибору — показується кількість і ціна, а також можна обчислити загальну суму.</p>
+
+    <form name="form7">
+        <label for="productSelect">Виберіть товар:</label><br><br>
+        <select id="productSelect" onchange="fun1()">
+            <option>— Оберіть товар —</option>
+            <option>Гречка</option>
+            <option>Горіхи</option>
+            <option>Груша</option>
+            <option>Гарбуз</option>
+        </select>
+        <br><br>
+
+        <label>Наявна кількість:</label><br>
+        <input type="text" id="quantity" size="40" readonly><br><br>
+
+        <label>Вартість за одиницю:</label><br>
+        <input type="text" id="price" size="40" readonly><br><br>
+
+        <input type="button" value="Загальна сума" onclick="fun2()"><br><br>
+        <input type="text" id="total" size="60" readonly>
+    </form>
+</body>
+</html>

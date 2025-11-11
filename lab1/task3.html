@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Завдання 3 — Обробка подій onChange та onSelect</title>
+
+<script>
+function fun(message) {
+    document.getElementById("t_res").value = message;
+}
+
+function fun1(message) {
+    document.getElementById("t_res2").value = message;
+}
+</script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+}
+input[type=text] {
+    width: 90%;
+    padding: 6px;
+    margin: 5px 0;
+}
+</style>
+</head>
+
+<body onload="fun('Відбулося завантаження сторінки');">
+
+<h3>Завдання 3</h3>
+<p>Демонстрація роботи подій <b>onChange</b> та <b>onSelect</b> у текстових полях засобами JavaScript.</p>
+
+<form id="main_form">
+    <input 
+        type="text" 
+        size="100" 
+        value="onChange" 
+        onchange="fun('Зміст текстового поля форми змінено');"
+    ><br><br>
+
+    <input 
+        type="text" 
+        size="100" 
+        value="onSelect" 
+        onfocus="fun1('Курсор потрапив у це поле');" 
+        onselect="fun('У текстовому полі форми виділено текст');"
+    ><br><br>
+
+    <input 
+        type="text" 
+        size="100" 
+        id="t_res" 
+        placeholder="Повідомлення з onChange / onSelect"
+    ><br><br>
+
+    <input 
+        type="text" 
+        size="100" 
+        id="t_res2" 
+        placeholder="Повідомлення з onFocus"
+    ><br>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Завдання 4: Розгалужений обчислювальний процес</title>
+<script>
+function calculateF() {
+    let x = parseFloat(main_form.t_x.value);
+    let y = parseFloat(main_form.t_y.value);
+    let F;
+
+    if (x > 0 && y != 0) {
+        F = 2 * x / y + x * Math.pow(y, 2);
+    } else if ((2 * x + y) / 2 != 0) {
+        F = y / (2 * x);
+    } else {
+        F = Math.pow(x, 2);
+    }
+
+    main_form.t_res.value = F.toFixed(4);
+}
+</script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+}
+input[type=text] {
+    width: 200px;
+    padding: 6px;
+    margin: 5px 0;
+}
+</style>
+</head>
+
+<body>
+<h3>Завдання 4</h3>
+<p>F = { 2x/y + xy², якщо (x &gt; 0) та (y ≠ 0);  
+y/(2x), якщо (2x + y)/2 ≠ 0;  
+x² — інакше }</p>
+
+<form id="main_form">
+x = <input type="text" id="t_x" placeholder="Введіть x"><br>
+y = <input type="text" id="t_y" placeholder="Введіть y"><br><br>
+Результат F = <input type="text" id="t_res" readonly><br><br>
+<input type="button" onClick="calculateF();" value="Розрахувати">
+</form>
+</body>
+</html>

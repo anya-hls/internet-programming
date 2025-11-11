@@ -1,0 +1,40 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Обчислення суми ряду</title>
+<script>
+function factorial(n) {
+    let fact = 1;
+    for (let j = 1; j <= n; j++) {
+        fact *= j;
+    }
+    return fact;
+}
+
+function calculateSum() {
+    let x = parseFloat(main_form.t_x.value);
+    let y = parseFloat(main_form.t_y.value);
+    let sum = 0.0;
+
+    for (let i = 3; i <= 7; i++) {
+        let term = Math.pow(-1, i + 1) * (((7 * i - x * y) / (i + 12)) * Math.pow(i, 2) - factorial(i + 2));
+        sum += term;
+    }
+
+    main_form.t_res.value = sum.toFixed(4);
+}
+</script>
+</head>
+
+<body>
+<h3>Завдання 5</h3>
+<p>∑<sub>i=3</sub><sup>7</sup> (-1)<sup>i+1</sup> * ((7i - xy)/(i + 12) * i² - (i + 2)!)</p>
+
+<form id="main_form">
+x = <input type="text" id="t_x" placeholder="Введіть x"><br><br>
+y = <input type="text" id="t_y" placeholder="Введіть y"><br><br>
+Результат: <input type="text" id="t_res" readonly><br><br>
+<input type="button" onClick="calculateSum();" value="Розрахувати">
+</form>
+</body>
+</html>

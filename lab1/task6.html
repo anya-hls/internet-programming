@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Завдання 6 — Обробка товарів</title>
+
+<script>
+let product = ["Гречка", "Горіхи", "Груша", "Гарбуз"];
+let quantity = [120, 85, 50];
+let cost = [45.5, 150, 25.75];
+let currentIndex = -1;
+
+function fun1() {
+    let name = document.getElementById("t_name").value.trim();
+    currentIndex = product.findIndex(item => item.toLowerCase() === name.toLowerCase());
+
+    if (currentIndex !== -1) {
+        document.getElementById("t_quantity").value = quantity[currentIndex] + " шт";
+        document.getElementById("t_cost").value = cost[currentIndex] + " грн/од.";
+        document.getElementById("t_result").value = "";
+    } else {
+        alert("Товар не знайдено. Введіть іншу назву.");
+        document.getElementById("t_quantity").value = "";
+        document.getElementById("t_cost").value = "";
+        document.getElementById("t_result").value = "";
+    }
+}
+
+function fun2() {
+    if (currentIndex === -1) {
+        alert("Спочатку знайдіть товар за допомогою кнопки 'Наявна кількість і вартість'.");
+        return;
+    }
+
+    let total = quantity[currentIndex] * cost[currentIndex];
+    document.getElementById("t_result").value = 
+        "Загальна сума для товару '" + product[currentIndex] + "': " + total.toFixed(2) + " грн";
+}
+</script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+}
+input[type=text] {
+    width: 300px;
+    padding: 6px;
+    margin: 5px 0;
+}
+button {
+    padding: 6px 12px;
+    margin-top: 5px;
+}
+</style>
+</head>
+
+<body>
+<h3>Завдання 6</h3>
+<p>Введіть назву товару, щоб отримати дані про кількість та вартість.</p>
+
+<form id="main_form">
+Назва товару: 
+<input type="text" id="t_name" placeholder="Наприклад: Гречка"><br><br>
+
+<input type="button" value="Наявна кількість і вартість" onclick="fun1()"><br><br>
+
+Кількість: <input type="text" id="t_quantity" readonly><br>
+Вартість: <input type="text" id="t_cost" readonly><br><br>
+
+<input type="button" value="Загальна сума" onclick="fun2()"><br><br>
+
+Результат: <input type="text" id="t_result" readonly style="width:90%;"><br>
+</form>
+</body>
+</html>

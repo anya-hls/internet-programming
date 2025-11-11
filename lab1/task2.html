@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Завдання 2 — Обчислення виразу</title>
+<script>
+function calculate() {
+    let x = parseFloat(document.getElementById("t_x").value);
+    let y = parseFloat(document.getElementById("t_y").value);
+
+    let F = Math.pow(x, 3) + Math.pow(x, 2) + x + x * Math.pow(y, 2);
+
+    document.getElementById("t_res").value = F.toFixed(4);
+}
+</script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+}
+input[type=text] {
+    width: 200px;
+    padding: 6px;
+    margin: 5px 0;
+}
+</style>
+</head>
+
+<body>
+<h3>Завдання 2</h3>
+<p>F = x³ + x² + x + xy²</p>
+
+<form id="main_form">
+x = <input type="text" id="t_x" placeholder="Введіть x"><br>
+y = <input type="text" id="t_y" placeholder="Введіть y"><br><br>
+Результат F = <input type="text" id="t_res" readonly><br><br>
+<input type="button" value="Розрахувати" onclick="calculate()">
+</form>
+</body>
+</html>
