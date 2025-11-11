@@ -1,0 +1,74 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Завдання 3: Таблиця Aij = 11j - i</title>
+<script>
+let rows, cols;
+
+function buildTable() {
+    rows = parseInt(main_form.t_rows.value);
+    cols = parseInt(main_form.t_cols.value);
+
+    if (isNaN(rows) || isNaN(cols) || rows <= 0 || cols <= 0) {
+        alert("Введіть коректні значення для рядків і стовпців!");
+        return;
+    }
+
+    let html = "<table border='1' cellspacing='0' cellpadding='4'>";
+    for (let i = 1; i <= rows; i++) {
+        html += "<tr>";
+        for (let j = 1; j <= cols; j++) {
+            let value = 11 * j - i;
+            html += "<td><input type='text' id='cell_" + i + "_" + j + "' value='" + value + "'></td>";
+        }
+        html += "</tr>";
+    }
+    html += "</table>";
+    document.getElementById("main_div").innerHTML = html;
+}
+
+function calculateSum() {
+    if (!rows || !cols) {
+        alert("Спочатку побудуйте таблицю!");
+        return;
+    }
+
+    let sum = 0;
+    for (let i = 1; i <= rows; i++) {
+        for (let j = 1; j <= cols; j++) {
+            if (i === j) {
+                sum += parseInt(document.getElementById("cell_" + i + "_" + j).value);
+            }
+        }
+    }
+    alert("Сума елементів головної діагоналі = " + sum);
+}
+</script>
+</head>
+
+<body>
+<h3>Завдання 3</h3>
+<p>Формула: <b>A<sub>ij</sub> = 11j - i</b></p>
+<p>Варіант №19 — підрахунок суми елементів, де i = j (головна діагональ)</p>
+
+<form id="main_form">
+<table>
+<tr>
+<td>Кількість рядків:</td>
+<td><input type="text" id="t_rows" placeholder="Введіть число"></td>
+</tr>
+<tr>
+<td>Кількість стовпців:</td>
+<td><input type="text" id="t_cols" placeholder="Введіть число"></td>
+</tr>
+<tr>
+<td><input type="button" value="Побудувати матрицю" onClick="buildTable();"></td>
+</tr>
+<tr>
+<td><input type="button" value="Розрахувати суму" onClick="calculateSum();"></td>
+</tr>
+</table>
+<div id="main_div"></div>
+</form>
+</body>
+</html>

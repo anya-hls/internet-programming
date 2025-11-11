@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Завдання 5: Методи console</title>
+</head>
+<body>
+  <h3>Завдання 5</h3>
+  <p>Результати дивись у консолі (F12 → Console)</p>
+
+  <script>
+    console.info("Це інформаційне повідомлення");
+    console.warn("Це попередження");
+    console.error("Це повідомлення про помилку");
+
+    const user = { name: "Анна", age: 19, city: "Івано-Франківськ" };
+    console.dir(user);
+    console.dirxml(document.body);
+
+    console.time("Час виконання");
+    for (let i = 0; i < 1000000; i++) {}
+    console.timeEnd("Час виконання");
+
+    console.profile("Профіль");
+    for (let j = 0; j < 1000000; j++) {}
+    console.profileEnd("Профіль");
+
+    let x = 5;
+    console.assert(x > 10, "Помилка: значення x не більше за 10!");
+  </script>
+</body>
+</html>

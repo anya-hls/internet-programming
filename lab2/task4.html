@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Завдання 4: Метод console.log()</title>
+</head>
+<body>
+  <h3>Завдання 4</h3>
+  <p>Результати дивись у консолі (F12 → Console)</p>
+
+  <script>
+    let a = 17;
+    let b = 5;
+    let remainder = a % b;
+    console.log("1️ Остача від ділення %d на %d дорівнює %d", a, b, remainder);
+
+    let isDivisible = (a % b === 0);
+    console.log("2️ Чи ділиться %d на %d без остачі? %s", a, b, isDivisible);
+
+    let arr = [10, 20, 30, 40];
+    console.log("3️ Значення масиву: %d, %d, %d, %d", arr[0], arr[1], arr[2], arr[3]);
+
+    console.log("Перший елемент масиву як рядок: %s", arr[0]);
+  </script>
+</body>
+</html>

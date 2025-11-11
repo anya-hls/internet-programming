@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Завдання 2: Простий калькулятор</title>
+<script>
+function addToDisplay(value) {
+    document.calc.display.value += value;
+}
+function clearDisplay() {
+    document.calc.display.value = "";
+}
+function calculate() {
+    try {
+        document.calc.display.value = eval(document.calc.display.value);
+    } catch (e) {
+        alert("Помилка у виразі");
+    }
+}
+</script>
+</head>
+
+<body>
+<h3>Завдання 2</h3>
+<p>Створити простий калькулятор з кнопками для введення символів і виконання обчислень.</p>
+
+<form name="calc">
+<input type="text" name="display" readonly size="20"><br><br>
+
+<input type="button" value="7" onClick="addToDisplay('7')">
+<input type="button" value="8" onClick="addToDisplay('8')">
+<input type="button" value="9" onClick="addToDisplay('9')">
+<input type="button" value="/" onClick="addToDisplay('/')"><br>
+
+<input type="button" value="4" onClick="addToDisplay('4')">
+<input type="button" value="5" onClick="addToDisplay('5')">
+<input type="button" value="6" onClick="addToDisplay('6')">
+<input type="button" value="*" onClick="addToDisplay('*')"><br>
+
+<input type="button" value="1" onClick="addToDisplay('1')">
+<input type="button" value="2" onClick="addToDisplay('2')">
+<input type="button" value="3" onClick="addToDisplay('3')">
+<input type="button" value="-" onClick="addToDisplay('-')"><br>
+
+<input type="button" value="0" onClick="addToDisplay('0')">
+<input type="button" value="." onClick="addToDisplay('.')">
+<input type="button" value="C" onClick="clearDisplay()">
+<input type="button" value="+" onClick="addToDisplay('+')"><br><br>
+
+<input type="button" value="=" onClick="calculate()">
+</form>
+</body>
+</html>
