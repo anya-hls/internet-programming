@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №3 — Завдання 1</title>
+    <script>
+        function calculateEllipseArea() {
+            let a = parseFloat(document.getElementById("a").value);
+            let b = parseFloat(document.getElementById("b").value);
+            let areaField = document.getElementById("area");
+
+            if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) {
+                areaField.value = "Введіть додатні числа";
+                return;
+            }
+
+            let area = Math.PI * a * b;
+
+            areaField.value = area.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+    <h3>Завдання 1</h3>
+<p>Розрахунок площі еліпса:</p>
+    <label>Піввісь a:</label>
+    <input type="text" id="a" onkeyup="calculateEllipseArea()"><br><br>
+
+    <label>Піввісь b:</label>
+    <input type="text" id="b" onkeyup="calculateEllipseArea()"><br><br>
+
+    <label>Площа еліпса:</label>
+    <input type="text" id="area" readonly><br><br>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 5 — Тест арифметики</title>
+    <script>
+        let totalQuestions = 5;
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let num1, num2, operation, correctResult;
+
+        function generateTask() {
+            if(currentQuestion >= totalQuestions) {
+                document.getElementById("task").innerText = "Тест завершено!";
+                document.getElementById("result").innerText = "Правильних відповідей: " + correctAnswers + " з " + totalQuestions;
+                document.getElementById("answer").style.display = "none";
+                document.getElementById("checkBtn").style.display = "none";
+                document.getElementById("nextBtn").style.display = "none";
+                return;
+            }
+
+            num1 = Math.floor(Math.random() * 10);
+            num2 = Math.floor(Math.random() * 10);
+
+            let ops = ["+", "-", "*", "/"];
+            operation = ops[Math.floor(Math.random() * ops.length)];
+
+            if(operation === "/" && num2 === 0) num2 = 1;
+
+            switch(operation) {
+                case "+": correctResult = num1 + num2; break;
+                case "-": correctResult = num1 - num2; break;
+                case "*": correctResult = num1 * num2; break;
+                case "/": correctResult = (num1 / num2).toFixed(2); break;
+            }
+
+            document.getElementById("task").innerText = `Завдання ${currentQuestion+1}: ${num1} ${operation} ${num2} = ?`;
+            document.getElementById("answer").value = "";
+            document.getElementById("result").innerText = "";
+        }
+
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answer").value;
+            if(operation === "/") userAnswer = parseFloat(userAnswer).toFixed(2);
+
+            if(userAnswer == correctResult) {
+                document.getElementById("result").innerText = "Правильно!";
+                correctAnswers++;
+            } else {
+                document.getElementById("result").innerText = `Помилка, правильна відповідь: ${correctResult}`;
+            }
+        }
+
+        function nextTask() {
+            currentQuestion++;
+            generateTask();
+        }
+
+        window.onload = generateTask;
+    </script>
+</head>
+<body>
+    <h3>Завдання 5</h3>
+
+    <p id="task"></p>
+    <input type="text" id="answer">
+    <button id="checkBtn" onclick="checkAnswer()">Перевірити</button>
+    <button id="nextBtn" onclick="nextTask()">Наступне завдання</button>
+    <p id="result"></p>
+</body>
+</html>

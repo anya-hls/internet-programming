@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 4 — Перегляд зображень</title>
+    <script>
+        let images = [
+            'image1.jpg',
+            'image2.jpg',
+            'image3.jpg',
+            'image4.jpg'
+        ];
+
+        let currentIndex = 0;
+
+        function showImage() {
+            document.getElementById("display").src = images[currentIndex];
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage();
+        }
+
+        window.onload = showImage;
+    </script>
+</head>
+<body>
+    <h3>Завдання 4</h3>
+
+    <img id="display" src="" alt="Зображення" width="400" height="300"><br><br>
+    <button onclick="prevImage()">Назад</button>
+    <button onclick="nextImage()">Вперед</button>
+</body>
+</html>

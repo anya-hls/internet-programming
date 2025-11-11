@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 3 — Перемикання розкладки</title>
+    <script>
+        const layouts = {
+            "ua": {
+                digits: ["1","2","3","4","5","6","7","8","9","0"],
+                letters: [
+                    "а","б","в","г","ґ","д","е","є","ж","з","и","і","ї",
+                    "й","к","л","м","н","о","п","р","с","т","у","ф","х",
+                    "ц","ч","ш","щ","ь","ю","я"
+                ]
+            },
+            "en": {
+                digits: ["1","2","3","4","5","6","7","8","9","0"],
+                letters: [
+                    "a","b","c","d","e","f","g","h","i","j","k","l","m",
+                    "n","o","p","q","r","s","t","u","v","w","x","y","z"
+                ]
+            }
+        };
+
+        let currentLang = "ua";
+
+        function createKeyboard() {
+            let keyboard = document.getElementById("keyboard");
+            let layout = layouts[currentLang];
+            let html = "";
+
+            html += layout.digits.map(k => `<button onclick="addSymbol('${k}')">${k}</button>`).join("");
+            html += "<br>";
+
+            layout.letters.forEach((k, i) => {
+                html += `<button onclick="addSymbol('${k}')">${k}</button>`;
+                if ((i + 1) % 11 === 0) html += "<br>";
+            });
+
+            html += `
+                <br>
+                <button onclick='clearField()'>Очистити поле</button>
+                <button onclick='toggleLang()'>Alt+Shift</button>
+            `;
+
+            keyboard.innerHTML = html;
+        }
+
+        function addSymbol(s) {
+            document.getElementById("display").value += s;
+        }
+
+        function clearField() {
+            document.getElementById("display").value = "";
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === "ua" ? "en" : "ua";
+            createKeyboard();
+        }
+
+        window.onload = createKeyboard;
+    </script>
+</head>
+<body>
+    <h3>Завдання 3</h3>
+
+    <textarea id="display" rows="5" cols="50"></textarea><br>
+    <div id="keyboard"></div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 6 — Дерево ієрархії</title>
+    <script>
+        const data = {
+            "fruits": ["apple", "pineapple", "appricot", "pear", "lemon"],
+            "vegetables": ["potatoes", "beetroot", "carrots", "pear"]
+        };
+
+        function createTree() {
+            const container = document.getElementById("tree");
+            container.innerHTML = "";
+
+            for (let category in data) {
+                const parent = document.createElement("div");
+                const parentLink = document.createElement("a");
+                parentLink.href = "#";
+                parentLink.innerText = category;
+                parentLink.onclick = function() {
+                    const childList = this.nextSibling;
+                    childList.style.display = childList.style.display === "none" ? "block" : "none";
+                };
+                parent.appendChild(parentLink);
+
+                const ul = document.createElement("ul");
+                ul.style.display = "none";
+                data[category].forEach(item => {
+                    const li = document.createElement("li");
+                    li.innerText = item;
+                    ul.appendChild(li);
+                });
+
+                parent.appendChild(ul);
+                container.appendChild(parent);
+            }
+        }
+
+        window.onload = createTree;
+    </script>
+</head>
+<body>
+    <h3>Завдання 6</h3>
+
+    <div id="tree"></div>
+</body>
+</html>
