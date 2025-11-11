@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №4 — Тестування</title>
+    <script>
+        function checkTest() {
+            let total = 0;
+            let resultsHTML = "<table border='1' cellpadding='5'><tr><th>Запитання</th><th>Вибрано</th><th>Бали</th></tr>";
+
+            const form = document.forms["quizForm"];
+
+            // --- Запитання 1: Radio ---
+            let radios1 = form.pol0;
+            let score1 = 0;
+            for(let i=0;i<radios1.length;i++){
+                if(radios1[i].checked){
+                    score1 = parseInt(radios1[i].value);
+                    break;
+                }
+            }
+            total += score1;
+            resultsHTML += `<tr><td>Запитання 1 (Radio)</td><td>${[...radios1].filter(r=>r.checked).map(r=>r.nextSibling.textContent).join(", ")}</td><td>${score1}</td></tr>`;
+
+            // --- Запитання 2: Radio ---
+            let radios2 = form.pol1;
+            let score2 = 0;
+            for(let i=0;i<radios2.length;i++){
+                if(radios2[i].checked){
+                    score2 = parseInt(radios2[i].value);
+                    break;
+                }
+            }
+            total += score2;
+            resultsHTML += `<tr><td>Запитання 2 (Radio)</td><td>${[...radios2].filter(r=>r.checked).map(r=>r.nextSibling.textContent).join(", ")}</td><td>${score2}</td></tr>`;
+
+            // --- Запитання 3: Checkbox ---
+            let checkboxes1 = form.chk0;
+            let selected = [...checkboxes1].filter(c=>c.checked);
+            let correct = selected.filter(c=>c.value==="1").length;
+            let score3 = 0;
+            if(selected.length===2) score3 = correct; // 2 правильних =2 бали, 1 правильна=1
+            total += score3;
+            resultsHTML += `<tr><td>Запитання 3 (Checkbox)</td><td>${selected.map(c=>c.nextSibling.textContent).join(", ")}</td><td>${score3}</td></tr>`;
+
+            // --- Запитання 4: Checkbox ---
+            let checkboxes2 = form.chk1;
+            selected = [...checkboxes2].filter(c=>c.checked);
+            correct = selected.filter(c=>c.value==="1").length;
+            let score4 = 0;
+            if(selected.length===2) score4 = correct;
+            total += score4;
+            resultsHTML += `<tr><td>Запитання 4 (Checkbox)</td><td>${selected.map(c=>c.nextSibling.textContent).join(", ")}</td><td>${score4}</td></tr>`;
+
+            // --- Запитання 5: Select (одинарний) ---
+            let sel1 = form.sel0;
+            let selValue = sel1.value;
+            let score5 = selValue==="1"?1:0;
+            total += score5;
+            resultsHTML += `<tr><td>Запитання 5 (Select)</td><td>${sel1.options[sel1.selectedIndex].text}</td><td>${score5}</td></tr>`;
+
+            // --- Запитання 6: Select (множинний) ---
+            let sel2 = form.sel1;
+            selected = [...sel2.options].filter(o=>o.selected);
+            correct = selected.filter(o=>o.value==="1").length;
+            let score6 = 0;
+            if(selected.length===2) score6 = correct;
+            total += score6;
+            resultsHTML += `<tr><td>Запитання 6 (Select multiple)</td><td>${selected.map(o=>o.text).join(", ")}</td><td>${score6}</td></tr>`;
+
+            let textAnswer = form.text0.value.trim().toLowerCase();
+            let score7 = (textAnswer==="правильна відповідь"?1:0);
+            total += score7;
+            resultsHTML += `<tr><td>Запитання 7 (Text)</td><td>${form.text0.value}</td><td>${score7}</td></tr>`;
+
+            resultsHTML += `<tr><td colspan="2"><b>Загальний бал</b></td><td><b>${total}</b></td></tr></table>`;
+
+            document.getElementById("results").innerHTML = resultsHTML;
+        }
+    </script>
+</head>
+<body>
+    <h2>Лабораторна робота №4 — Тестування</h2>
+
+    <form name="quizForm">
+        <p>1. Питання 1?</p>
+        <input type="radio" name="pol0" value="1"> Варіант 1
+        <input type="radio" name="pol0" value="0"> Варіант 2
+        <input type="radio" name="pol0" value="0"> Варіант 3
+        <input type="radio" name="pol0" value="0"> Варіант 4
+
+        <p>2. Питання 2?</p>
+        <input type="radio" name="pol1" value="0"> Варіант 1
+        <input type="radio" name="pol1" value="1"> Варіант 2
+        <input type="radio" name="pol1" value="0"> Варіант 3
+        <input type="radio" name="pol1" value="0"> Варіант 4
+
+        <p>3. Питання 3?</p>
+        <input type="checkbox" name="chk0" value="1"> Правильний 1
+        <input type="checkbox" name="chk0" value="1"> Правильний 2
+        <input type="checkbox" name="chk0" value="0"> Неправильний 1
+        <input type="checkbox" name="chk0" value="0"> Неправильний 2
+
+        <p>4. Питання 4?</p>
+        <input type="checkbox" name="chk1" value="1"> Правильний 1
+        <input type="checkbox" name="chk1" value="1"> Правильний 2
+        <input type="checkbox" name="chk1" value="0"> Неправильний 1
+        <input type="checkbox" name="chk1" value="0"> Неправильний 2
+
+        <p>5. Питання 5?</p>
+        <select name="sel0">
+            <option value="0">Варіант 1</option>
+            <option value="1">Варіант 2</option>
+            <option value="0">Варіант 3</option>
+            <option value="0">Варіант 4</option>
+        </select>
+
+        <p>6. Питання 6?</p>
+        <select name="sel1" multiple size="4">
+            <option value="1">Правильний 1</option>
+            <option value="1">Правильний 2</option>
+            <option value="0">Неправильний 1</option>
+            <option value="0">Неправильний 2</option>
+        </select>
+
+        <p>7. Питання 7?</p>
+        <input type="text" name="text0">
+
+        <br><br>
+        <input type="button" value="Завершити тестування" onclick="checkTest()">
+    </form>
+
+    <div id="results"></div>
+</body>
+</html>
