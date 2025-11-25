@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Лабораторна робота 7 - Робота з рядками</title>
+</head>
+<body>
+<h1>Лабораторна робота 7</h1>
+
+<h3>Завдання 1: Довжина рядка</h3>
+<input id="str1" placeholder="Введіть рядок">
+<button onclick="task1()">Виконати</button>
+<p id="res1"></p>
+
+<h3>Завдання 2: Верхній та нижній регістр</h3>
+<input id="str2" placeholder="Введіть рядок">
+<button onclick="task2()">Виконати</button>
+<p id="res2"></p>
+
+<h3>Завдання 3: Індекс символу</h3>
+<input id="str3" placeholder="Рядок">
+<input id="char3" placeholder="Символ">
+<button onclick="task3()">Виконати</button>
+<p id="res3"></p>
+
+<h3>Завдання 4: Кількість входжень символу</h3>
+<input id="str4" placeholder="Рядок">
+<input id="char4" placeholder="Символ">
+<button onclick="task4()">Виконати</button>
+<p id="res4"></p>
+
+<h3>Завдання 5: Місцями кожні два символи</h3>
+<input id="str5" placeholder="Рядок">
+<button onclick="task5()">Виконати</button>
+<p id="res5"></p>
+
+<h3>Завдання 6: Перевірка на спам</h3>
+<input id="str6" placeholder="Рядок">
+<button onclick="task6()">Виконати</button>
+<p id="res6"></p>
+
+<h3>Завдання 7: Скорочення рядка до максимальної довжини</h3>
+<input id="str7" placeholder="Рядок">
+<input id="max7" type="number" placeholder="Макс. довжина">
+<button onclick="task7()">Виконати</button>
+<p id="res7"></p>
+
+<h3>Завдання 9: Пошук та заміна</h3>
+<input id="str9" placeholder="Введіть рядок">
+<button onclick="task9()">Виконати</button>
+
+<p id="res9_1"></p>
+<p id="res9_2"></p>
+<p id="res9_3"></p>
+<p id="res9_4"></p>
+<p id="res9_5"></p>
+<p id="res9_6"></p>
+<p id="res9_7"></p>
+<p id="res9_8"></p>
+
+<script>
+function task1(){
+  let s = document.getElementById('str1').value;
+  document.getElementById('res1').textContent = s.length;
+}
+
+function task2(){
+  let s = document.getElementById('str2').value;
+  document.getElementById('res2').textContent = "Верхній: " + s.toUpperCase() + " | Нижній: " + s.toLowerCase();
+}
+
+function task3(){
+  let s = document.getElementById('str3').value;
+  let c = document.getElementById('char3').value;
+  document.getElementById('res3').textContent = s.indexOf(c);
+}
+
+function task4(){
+  let s = document.getElementById('str4').value;
+  let c = document.getElementById('char4').value;
+  let count = 0;
+  for(let ch of s) if(ch===c) count++;
+  document.getElementById('res4').textContent = count;
+}
+
+function task5(){
+  let s = document.getElementById('str5').value.split('');
+  for(let i=0; i<s.length-1; i+=2){
+    [s[i], s[i+1]] = [s[i+1], s[i]];
+  }
+  document.getElementById('res5').textContent = s.join('');
+}
+
+function task6(){
+  let s = document.getElementById('str6').value.toLowerCase();
+  let spam = ["100% безкоштовно", "збільшення продажів", "тільки сьогодні", "не видаляйте"];
+  document.getElementById('res6').textContent = spam.some(word=>s.includes(word));
+}
+
+function task7(){
+  let s = document.getElementById('str7').value;
+  let max = Number(document.getElementById('max7').value);
+  if(s.length > max){
+    if(max > 3){
+      document.getElementById('res7').textContent = s.slice(0, max-3) + '...';
+    } else {
+      document.getElementById('res7').textContent = '.'.repeat(max);
+    }
+  } else {
+    document.getElementById('res7').textContent = s;
+  }
+}
+
+function task9(){
+  let s = document.getElementById('str9').value;
+
+  let replacedSpaces = s.replace(/ /g,'_');
+  document.getElementById('res9_1').textContent = "Пробіли -> _: " + replacedSpaces;
+
+  let letters = s.replace(/[^a-zа-яіїє]/gi,'').toLowerCase().split('');
+  let freq = {};
+  letters.forEach(l=>freq[l]=(freq[l]||0)+1);
+  let maxFreq = 0, most = '';
+  for(let l in freq){
+    if(freq[l]>maxFreq){maxFreq=freq[l]; most=l;}
+  }
+  document.getElementById('res9_2').textContent = "Найчастіше повторювана буква: " + most;
+
+  let replacedJS = s.split("JavaScript").join("JS");
+  document.getElementById('res9_3').textContent = 'JavaScript -> JS: ' + replacedJS;
+
+  let sub = "Script";
+  let indexSub = s.indexOf(sub);
+  document.getElementById('res9_4').textContent = `"${sub}" знаходиться на індексі: ` + indexSub;
+
+  let titleCase = s.split(' ').map(word=>word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+  document.getElementById('res9_5').textContent = "Кожне слово з великої букви: " + titleCase;
+
+  let replacedFirstChar = s.replace('e','a');
+  document.getElementById('res9_6').textContent = "Перша заміна символу (e->a): " + replacedFirstChar;
+
+  let replacedSubstr = s.split("love").join("like");
+  document.getElementById('res9_7').textContent = "Замінено підрядок: " + replacedSubstr;
+
+  let triple = /(.)\1\1/.test(s);
+  let alphaOnly = s.replace(/[^a-zа-яіїє]/gi,'');
+  let arr = s.split(''), i1=arr.indexOf('e'), i2=arr.indexOf('o');
+  if(i1!==-1 && i2!==-1) [arr[i1], arr[i2]] = [arr[i2], arr[i1]];
+  let swapped = arr.join('');
+  document.getElementById('res9_8').textContent = 
+    "Три однакових поспіль: "+triple+
+    " | Тільки букви: "+alphaOnly+
+    " | Змінено місцями e/o: "+swapped;
+}
+</script>
+</body>
+</html>
