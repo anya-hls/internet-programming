@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Лабораторна робота 5</title>
+<style>
+:root{
+  --bg:#f4f4f6;
+  --card:#636d76;
+  --text:#222;
+  --muted:#8b959c;
+  --accent:#ffebb5;
+  --tab-bg:#464c54;
+  --tab-text:#ffebb5;
+}
+body{
+  margin:40px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color:var(--bg);
+  color:var(--text);
+}
+.container{
+  max-width:1000px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:30px;
+  align-items:start;
+}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.title{
+  font-size:20px;
+  font-weight:bold;
+}
+.controls{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+button, .link-btn{
+  background:#2f343a;
+  color:#fff;
+  border:0;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+}
+.link-btn{background:transparent;color:inherit;padding:6px;border-radius:4px}
+.theme-dark{
+  --bg:#2b2f33;
+  --card:#3b444a;
+  --text:#e6eef2;
+  --muted:#b6c0c6;
+  --accent:#ffd;
+  --tab-bg:#2f343a;
+  --tab-text:#ffebb5;
+  background-color:var(--bg);
+  color:var(--text);
+}
+.tabbed_box{
+  margin:0 auto;
+  width:320px;
+}
+.tabbed_box h4{
+  font-size:23px;
+  color:var(--text);
+  letter-spacing:-1px;
+  margin-bottom:10px;
+}
+.tabbed_box h4 small{
+  color:var(--muted);
+  font-weight:normal;
+  font-size:11px;
+  text-transform:uppercase;
+  margin-left:6px;
+}
+.tabbed_area{
+  border:1px solid #494e52;
+  background-color:var(--card);
+  padding:8px;
+  border-radius:6px;
+}
+ul.tabs{margin:0;padding:0;display:flex;gap:6px}
+ul.tabs li{list-style:none}
+ul.tabs li a{
+  background-color:var(--tab-bg);
+  color:var(--tab-text);
+  padding:8px 14px;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:bold;
+  text-transform:uppercase;
+  border:1px solid var(--tab-bg);
+  border-radius:4px 4px 0 0;
+  display:inline-block;
+}
+ul.tabs li a:hover{filter:brightness(.9)}
+ul.tabs li a.active{
+  background-color:#ffffff;
+  color:#282e32;
+  border:1px solid #464c54;
+  border-bottom:1px solid #ffffff;
+}
+.content{
+  background:#ffffff;
+  padding:12px 20px;
+  border:1px solid #d0d6d9;
+  margin-top:10px;
+  display:none;
+  border-radius:4px;
+  color:#3e4346;
+}
+.content ul{margin:0;padding:0 20px}
+.content ul li{list-style:none;border-bottom:1px solid #d6dde0;padding:15px 0;font-size:13px}
+.content ul li a{text-decoration:none;color:inherit;display:flex;justify-content:space-between;align-items:center}
+.content ul li a small{color:var(--muted);font-size:9px;text-transform:uppercase;font-family:Verdana, Arial, Helvetica, sans-serif;margin-left:8px}
+.content ul li:last-child{border-bottom:none}
+.content.active{display:block}
+.nav{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.burger{
+  display:none;
+  width:36px;
+  height:36px;
+  border-radius:6px;
+  background:transparent;
+  border:1px solid rgba(0,0,0,0.08);
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.burger .lines{width:20px;height:2px;background:var(--text);position:relative}
+.burger .lines::before,.burger .lines::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--text)}
+.burger .lines::before{top:-6px}
+.burger .lines::after{top:6px}
+.main-nav{
+  display:flex;
+  gap:12px;
+}
+.main-nav a{padding:8px 12px;text-decoration:none;border-radius:6px;background:transparent;color:inherit}
+@media(max-width:800px){
+  .burger{display:flex}
+  .main-nav{display:none;flex-direction:column;background:var(--card);position:absolute;top:70px;left:20px;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+  .main-nav.open{display:flex}
+}
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,0.5);
+  display:none;align-items:center;justify-content:center;z-index:50;
+}
+.modal{
+  background:#fff;
+  padding:18px;
+  border-radius:10px;
+  max-width:420px;
+  width:90%;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  transform:translateY(-20px);
+  opacity:0;
+  transition:all .25s ease;
+  position:relative;
+  z-index:100;
+  color:#3e4346;
+}
+.modal.open{transform:translateY(0);opacity:1}
+.close-x{
+  background:transparent;
+  border:0;
+  font-size:22px;
+  color:#222;
+  padding:6px;
+  cursor:pointer;
+  position:absolute;
+  right:12px;
+  top:8px;
+  z-index:101;
+}
+.theme-dark .modal{
+  background:#3b444a;
+  color:#e6eef2; 
+}
+.theme-dark .close-x{
+  color:#ffd700;
+}
+.modal-header{position:relative;padding-right:30px;font-weight:bold;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="container" id="app">
+  <div class="header">
+    <div class="title">Лабораторна робота №5</div>
+    <div class="controls">
+      <div class="nav">
+        <button class="burger" id="burgerBtn" aria-label="Меню">
+          <span class="lines"></span>
+        </button>
+        <nav class="main-nav" id="mainNav" aria-label="Головна навігація">
+          <a href="#" class="link-btn">Головна</a>
+          <a href="#" class="link-btn">Проєкт</a>
+          <a href="#" class="link-btn">Контакти</a>
+        </nav>
+      </div>
+      <button id="themeToggle">Змінити тему</button>
+      <button id="showModal">Показати повідомлення</button>
+    </div>
+  </div>
+
+  <div class="tabbed_box">
+    <h4>Browse Site <small>Select a Tab</small></h4>
+    <div class="tabbed_area">
+      <ul class="tabs">
+        <li><a href="javascript:void(0)" id="tab_1" class="active">Topics</a></li>
+        <li><a href="javascript:void(0)" id="tab_2">Archives</a></li>
+        <li><a href="javascript:void(0)" id="tab_3">Pages</a></li>
+      </ul>
+      <div id="content_1" class="content active">
+        <ul>
+          <li><a href="#">HTML Techniques <small>4 Posts</small></a></li>
+          <li><a href="#">CSS Styling <small>32 Posts</small></a></li>
+          <li><a href="#">Flash Tutorials <small>2 Posts</small></a></li>
+          <li><a href="#">Web Miscellanea <small>19 Posts</small></a></li>
+          <li><a href="#">Site News <small>6 Posts</small></a></li>
+          <li><a href="#">Web Development <small>8 Posts</small></a></li>
+        </ul>
+      </div>
+      <div id="content_2" class="content">
+        <ul>
+          <li><a href="#">December 2008 <small>6 Posts</small></a></li>
+          <li><a href="#">November 2008 <small>4 Posts</small></a></li>
+          <li><a href="#">October 2008 <small>22 Posts</small></a></li>
+          <li><a href="#">September 2008 <small>12 Posts</small></a></li>
+          <li><a href="#">August 2008 <small>3 Posts</small></a></li>
+          <li><a href="#">July 2008 <small>1 Posts</small></a></li>
+        </ul>
+      </div>
+      <div id="content_3" class="content">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contribute</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+  <div class="modal" id="modalWindow" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="close-x" id="closeModal" aria-label="Закрити">×</button>
+    <div class="modal-header" id="modalTitle">Повідомлення</div>
+    <div class="modal-body">
+      <p>Це приклад модального вікна. Натисніть хрестик або поза вікном, щоб закрити.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+var tabs = ['tab_1','tab_2','tab_3'];
+function tabSwitch(new_tab,new_content){
+  tabs.forEach(function(t){document.getElementById(t).classList.remove('active')});
+  document.querySelectorAll('.content').forEach(function(c){c.classList.remove('active')});
+  document.getElementById(new_tab).classList.add('active');
+  document.getElementById(new_content).classList.add('active');
+}
+document.getElementById('tab_1').addEventListener('click',function(){tabSwitch('tab_1','content_1')});
+document.getElementById('tab_2').addEventListener('click',function(){tabSwitch('tab_2','content_2')});
+document.getElementById('tab_3').addEventListener('click',function(){tabSwitch('tab_3','content_3')});
+
+var themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click',function(){
+  document.body.classList.toggle('theme-dark');
+});
+
+var modalBackdrop = document.getElementById('modalBackdrop');
+var modalWindow = document.getElementById('modalWindow');
+document.getElementById('showModal').addEventListener('click',function(){
+  modalBackdrop.style.display = 'flex';
+  setTimeout(function(){modalWindow.classList.add('open')},10);
+  modalBackdrop.setAttribute('aria-hidden','false');
+});
+document.getElementById('closeModal').addEventListener('click',closeModal);
+modalBackdrop.addEventListener('click',function(e){
+  if(e.target===modalBackdrop) closeModal();
+});
+function closeModal(){
+  modalWindow.classList.remove('open');
+  setTimeout(function(){modalBackdrop.style.display='none';modalBackdrop.setAttribute('aria-hidden','true')},200);
+}
+
+var burgerBtn = document.getElementById('burgerBtn');
+var mainNav = document.getElementById('mainNav');
+burgerBtn.addEventListener('click',function(){
+  mainNav.classList.toggle('open');
+});
+window.addEventListener('resize',function(){ if(window.innerWidth>800) mainNav.classList.remove('open');});
+</script>
+</body>
+</html>
