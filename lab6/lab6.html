@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лабораторна робота 6 — Регулярні вирази</title>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  color: #222;
+}
+h2{
+  text-align: center;
+}
+form{
+  max-width: 500px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+label{
+  font-weight: bold;
+  margin-bottom: 5px;
+  display:block;
+}
+input{
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+input.success{
+  border-color: green;
+  background-color: #eaffea;
+}
+input.error{
+  border-color: red;
+  background-color: #ffeaea;
+}
+.feedback{
+  font-size: 12px;
+  color: red;
+  display: none;
+  margin-top: 3px;
+}
+.checkmark{
+  display: none;
+  color: green;
+  font-weight: bold;
+  margin-left: 5px;
+}
+.field-wrapper{
+  position: relative;
+}
+.field-wrapper .checkmark{
+  position: absolute;
+  right: 10px;
+  top: 35%;
+}
+button{
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #2f343a;
+  color: #fff;
+}
+button:hover{
+  background-color: #464c54;
+}
+</style>
+</head>
+<body>
+
+<h2>Форма реєстрації</h2>
+<form id="regForm" novalidate>
+  
+  <div class="field-wrapper">
+    <label for="email">E-mail (закінчується на pnu.edu.ua)</label>
+    <input type="text" id="email" name="email" placeholder="example@pnu.edu.ua">
+    <span class="checkmark">✔</span>
+    <div class="feedback" id="emailFeedback"></div>
+  </div>
+
+  <div class="field-wrapper">
+    <label for="fullname">Ім'я та прізвище (Перше слово: велика літера, друге: всі великі)</label>
+    <input type="text" id="fullname" name="fullname" placeholder="Ім'я ПРІЗВИЩЕ">
+    <span class="checkmark">✔</span>
+    <div class="feedback" id="fullnameFeedback"></div>
+  </div>
+
+  <div class="field-wrapper">
+    <label for="login">Логін (тільки латиниця)</label>
+    <input type="text" id="login" name="login" placeholder="login123">
+    <span class="checkmark">✔</span>
+    <div class="feedback" id="loginFeedback"></div>
+  </div>
+
+  <div class="field-wrapper">
+    <label for="password">Пароль (мінімум 8 символів, 1 буква, 1 цифра, 1 спецсимвол _-!@#$%^&*)</label>
+    <input type="password" id="password" name="password" placeholder="********">
+    <span class="checkmark">✔</span>
+    <div class="feedback" id="passwordFeedback"></div>
+  </div>
+
+  <div class="field-wrapper">
+    <label for="postcode">Поштовий індекс (5 цифр)</label>
+    <input type="text" id="postcode" name="postcode" placeholder="12345">
+    <span class="checkmark">✔</span>
+    <div class="feedback" id="postcodeFeedback"></div>
+  </div>
+
+  <button type="button" id="validateBtn">Перевірити</button>
+</form>
+
+<script>
+document.getElementById('validateBtn').addEventListener('click', function(){
+
+  const email = document.getElementById('email');
+  const fullname = document.getElementById('fullname');
+  const login = document.getElementById('login');
+  const password = document.getElementById('password');
+  const postcode = document.getElementById('postcode');
+
+  const emailRegex = /^[\w.-]+@pnu\.edu\.ua$/i;
+  const fullnameRegex = /^[A-ZА-Я][a-zа-я]+ [A-ZА-Я]+$/;
+  const loginRegex = /^[A-Za-z]+$/;
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[_\-!@#$%^&*]).{8,}$/;
+  const postcodeRegex = /^\d{5}$/;
+
+  const fields = [
+    {el: email, regex: emailRegex, feedbackId:'emailFeedback', errorMsg:"Введіть e-mail у форматі example@pnu.edu.ua"},
+    {el: fullname, regex: fullnameRegex, feedbackId:'fullnameFeedback', errorMsg:"Введіть ім'я та прізвище у вказаному форматі"},
+    {el: login, regex: loginRegex, feedbackId:'loginFeedback', errorMsg:"Логін повинен містити лише латинські літери"},
+    {el: password, regex: passwordRegex, feedbackId:'passwordFeedback', errorMsg:"Пароль не відповідає вимогам"},
+    {el: postcode, regex: postcodeRegex, feedbackId:'postcodeFeedback', errorMsg:"Поштовий індекс має містити 5 цифр"}
+  ];
+
+  fields.forEach(f => {
+    const value = f.el.value.trim();
+    const feedback = document.getElementById(f.feedbackId);
+    const check = f.el.nextElementSibling;
+
+    if(f.regex.test(value)){
+      f.el.classList.remove('error');
+      f.el.classList.add('success');
+      feedback.textContent = "Все правильно!";
+      feedback.style.display = "block";
+      feedback.style.color = "green";
+      check.style.display = 'inline';
+    } else {
+      f.el.classList.remove('success');
+      f.el.classList.add('error');
+      feedback.textContent = f.errorMsg;
+      feedback.style.display = "block";
+      feedback.style.color = "red";
+      check.style.display = 'none';
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>
