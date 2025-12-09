@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Лабораторна робота 9</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+}
+h2,h3{
+    margin:10px;
+}
+#field{
+    width:420px;
+    height:260px;
+    border:2px solid black;
+    margin:20px auto;
+    position:relative;
+    overflow:hidden;
+}
+#ball{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    position:absolute;
+    top:0;
+    left:0;
+    background:
+      radial-gradient(circle at 10px 10px,#ffffff,#cccccc),
+      radial-gradient(circle at 28px 28px,#000000,#222222);
+}
+#logo{
+    margin-top:30px;
+    margin-bottom:15px;
+    opacity:0;
+    transform:scale(1);
+    transition: margin-bottom 0.3s;
+}
+#logo img{
+    width:110px;
+}
+#subtitle{
+    min-height:28px;
+}
+#subtitle span{
+    opacity:0;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+.star{
+    width:6px;
+    height:6px;
+    background:gold;
+    border-radius:50%;
+    position:absolute;
+}
+button{
+    padding:10px 18px;
+    margin:8px;
+    font-size:14px;
+}
+</style>
+</head>
+<body>
+<h2>Лабораторна робота №9</h2>
+<h3>Анімація футбольного м'яча</h3>
+<div id="field">
+    <div id="ball"></div>
+</div>
+<button onclick="startBall()">Запустити м'яч</button>
+<hr>
+<h3>Анімований логотип спеціальності</h3>
+<div id="logo">
+    <img src="logo.png" alt="Логотип університету">
+</div>
+<h3 id="subtitle"></h3>
+<button onclick="toggleLogo()">Пуск / Стоп</button>
+<script>
+function animate({duration,timing,draw}){
+    let start = performance.now()
+    requestAnimationFrame(function run(time){
+        let frac = (time - start) / duration
+        if(frac>1) frac=1
+        let progress = timing(frac)
+        draw(progress)
+        if(frac < 1) requestAnimationFrame(run)
+    })
+}
+function quad(t){ return t*t }
+function bounce(t){
+    for(let a=0,b=1;;a+=b,b/=2){
+        if(t >= (7-4*a)/11){
+            return -Math.pow((11-6*a-11*t)/4,2) + Math.pow(b,2)
+        }
+    }
+}
+function makeEaseOut(timing){
+    return t => 1 - timing(1 - t)
+}
+let ball=document.getElementById("ball")
+let field=document.getElementById("field")
+function startBall(){
+    let h=field.clientHeight - ball.clientHeight
+    let w=140
+    animate({
+        duration:2000,
+        timing:makeEaseOut(bounce),
+        draw(p){ ball.style.top=h*p+"px" }
+    })
+    animate({
+        duration:2000,
+        timing:makeEaseOut(quad),
+        draw(p){ ball.style.left=w*p+"px" }
+    })
+}
+let running=false
+let subtitle=document.getElementById("subtitle")
+let logo=document.getElementById("logo")
+let text="ІНЖЕНЕРІЯ ПРОГРАМНОГО ЗАБЕЗПЕЧЕННЯ"
+function toggleLogo(){
+    if(running){
+        running=false
+        logo.style.opacity=0
+        logo.style.transform="scale(1)"
+        subtitle.innerHTML=""
+        return
+    }
+    running=true
+    subtitle.innerHTML=""
+    for(let ch of text){
+        let span=document.createElement("span")
+        span.textContent=ch
+        subtitle.appendChild(span)
+    }
+    let letters=[...subtitle.children]
+    letters.forEach((s,i)=>{
+        setTimeout(()=>{ s.style.opacity=1 }, i*40)
+    })
+    animate({
+        duration:1400,
+        timing:quad,
+        draw(p){
+            logo.style.opacity=p
+            logo.style.transform="scale("+(1+p*0.25)+")"
+        }
+    })
+    createStars()
+}
+function createStars(){
+    for(let i=0;i<24;i++){
+        let star=document.createElement("div")
+        star.className="star"
+        star.style.left=Math.random()*window.innerWidth+"px"
+        star.style.top=Math.random()*window.innerHeight+"px"
+        document.body.appendChild(star)
+        animate({
+            duration:1000,
+            timing:makeEaseOut(quad),
+            draw(p){
+                star.style.opacity=1-p
+                star.style.transform="scale("+(1+p)+")"
+            }
+        })
+        setTimeout(()=>star.remove(),1000)
+    }
+}
+</script>
+</body>
+</html>
