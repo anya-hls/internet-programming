@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Лабораторна робота 8</title>
+<style>
+body {font-family: Arial; line-height: 1.5}
+section {margin-bottom: 40px;}
+button {margin-top: 10px}
+.output {border: 1px solid #000; padding: 10px; margin-top: 10px}
+input {margin: 5px}
+</style>
+</head>
+<body>
+
+<h2>Завдання 1</h2>
+<input type="number" id="secInput" placeholder="Секунди">
+<button onclick="changeTime()">Змінити час</button>
+<div class="output" id="timeOutput"></div>
+
+<hr>
+
+<h2>Завдання 2.1</h2>
+<button onclick="showDate()">Виконати</button>
+<div class="output" id="dateOutput"></div>
+
+<h3>Завдання 2.2</h3>
+<input type="number" id="yearInput" placeholder="Рік">
+<input type="number" id="monthInput" placeholder="Місяць (1-12)">
+<button onclick="lastDay()">Знайти день</button>
+<div class="output" id="lastDayOutput"></div>
+
+<h3>Завдання 2.3</h3>
+<button onclick="secondsInfo()">Виконати</button>
+<div class="output" id="secondsOutput"></div>
+
+<hr>
+
+<h2>Завдання 3</h2>
+<input type="text" id="brand" placeholder="Бренд">
+<input type="text" id="model" placeholder="Модель">
+<input type="number" id="year" placeholder="Рік">
+<button onclick="createCar()">Показати інформацію</button>
+<div class="output" id="carOutput"></div>
+
+<hr>
+
+<h2>Завдання 4</h2>
+<input type="text" id="eBrand" placeholder="Бренд">
+<input type="text" id="eModel" placeholder="Модель">
+<input type="number" id="eYear" placeholder="Рік">
+<input type="number" id="battery" placeholder="Батарея kWh">
+<button onclick="createElectricCar()">Показати інформацію</button>
+<div class="output" id="electricCarOutput"></div>
+
+<hr>
+
+<h2>Завдання 5</h2>
+<input type="number" id="a" placeholder="A">
+<input type="number" id="b" placeholder="B">
+<button onclick="sum()">Обчислити</button>
+<div class="output" id="mathOutput"></div>
+
+<hr>
+
+<h2>Завдання 6 (Варіант 9)</h2>
+<label>Радіус кола</label><br>
+<input type="number" id="radius"><br>
+
+<label>Основа трикутника</label><br>
+<input type="number" id="base"><br>
+
+<label>Висота трикутника</label><br>
+<input type="number" id="height"><br>
+
+<button onclick="calcShapes()">Показати інформацію</button>
+<button onclick="clearShapes()">Очистити поля</button>
+
+<div class="output" id="shapesOutput"></div>
+
+<script>
+
+let time = new Date()
+
+function showTime(){
+    document.getElementById("timeOutput").innerText = time.toLocaleTimeString()
+}
+
+showTime()
+
+function changeTime(){
+    let s = Number(secInput.value)
+    time = new Date(time.getTime() + s * 1000)
+    showTime()
+}
+
+const months = ["січня","лютого","березня","квітня","травня","червня","липня","серпня","вересня","жовтня","листопада","грудня"]
+const days = ["неділя","понеділок","вівторок","середа","четвер","п’ятниця","субота"]
+
+function showDate(){
+    let d = new Date()
+    dateOutput.innerHTML =
+        "Дата: " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear() + " року<br>" +
+        "День тижня: " + days[d.getDay()] + "<br>" +
+        "Час: " + d.getHours().toString().padStart(2,'0') + ":" +
+        d.getMinutes().toString().padStart(2,'0')
+}
+
+function lastDay(){
+    let y = Number(yearInput.value)
+    let m = Number(monthInput.value)
+    let d = new Date(y, m, 0)
+    lastDayOutput.innerText = "Останній день: " + d.getDate()
+}
+
+function secondsInfo(){
+    let now = new Date()
+    let start = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    let end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+
+    let passed = Math.floor((now - start) / 1000)
+    let left = Math.floor((end - now) / 1000)
+
+    secondsOutput.innerText =
+        "Від початку дня: " + passed + " сек\n" +
+        "До наступного дня: " + left + " сек"
+}
+
+class Car {
+    constructor(brand, model, year){
+        this.brand = brand
+        this.model = model
+        this.year = year
+    }
+    info(){
+        return "Авто: " + this.brand + " " + this.model + ", " + this.year + " року"
+    }
+}
+
+function createCar(){
+    let car = new Car(brand.value, model.value, year.value)
+    carOutput.innerText = car.info()
+}
+
+class ElectricCar extends Car {
+    constructor(brand, model, year, battery){
+        super(brand, model, year)
+        this.battery = battery
+    }
+    charge(){
+        return this.info() + "\nБатарея: " + this.battery + " kWh"
+    }
+}
+
+function createElectricCar(){
+    let eCar = new ElectricCar(eBrand.value, eModel.value, eYear.value, battery.value)
+    electricCarOutput.innerText = eCar.charge()
+}
+
+class MathHelper {
+    static add(a,b){
+        return a + b
+    }
+}
+
+function sum(){
+    mathOutput.innerText =
+        "Сума: " + MathHelper.add(Number(a.value), Number(b.value))
+}
+
+class Shape {
+    constructor(){}
+    getArea(){}
+}
+
+class Circle extends Shape {
+    constructor(radius){
+        super()
+        this.radius = radius
+    }
+    getArea(){
+        return Math.PI * this.radius * this.radius
+    }
+}
+
+class Triangle extends Shape {
+    constructor(base,height){
+        super()
+        this.base = base
+        this.height = height
+    }
+    getArea(){
+        return this.base * this.height / 2
+    }
+}
+
+function calcShapes(){
+    let c = new Circle(Number(radius.value))
+    let t = new Triangle(Number(base.value), Number(height.value))
+
+    let shapes = [c, t]
+
+    shapesOutput.innerText = ""
+
+    shapes.forEach((s,i)=>{
+        shapesOutput.innerText += "Фігура " + (i+1) + ": " + s.getArea().toFixed(2) + "\n"
+    })
+}
+
+function clearShapes(){
+    radius.value=""
+    base.value=""
+    height.value=""
+    shapesOutput.innerText=""
+}
+
+</script>
+</body>
+</html>
