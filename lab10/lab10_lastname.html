@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Lab 10 - jQuery</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<style>
+body{
+    font-family: Arial, sans-serif;
+}
+.hoverStyle{
+    background-color: lightgoldenrodyellow;
+}
+.activeDiv{
+    border: 3px solid blue;
+    background-color: lightblue;
+}
+#demoDiv{
+    width:200px;
+    height:100px;
+    border:1px solid black;
+    margin:10px 0;
+    padding:10px;
+}
+#imgBox{
+    display:none;
+    width:200px;
+    cursor:pointer;
+}
+span{
+    color:red;
+    display:none;
+}
+</style>
+<script>
+$(document).ready(function(){
+alert("JQuery ready!!!");
+var $text = $("#hide_text");
+$text.hide();
+$(".button").click(function(){
+$text.show(200);
+});
+$("p:first").text("DOM first!");
+$("p:last").text("DOM last!");
+$("div").hover(
+    function(){ $(this).addClass("hoverStyle"); },
+    function(){ $(this).removeClass("hoverStyle"); }
+);
+$("#demoDiv").bind("click",function(){
+    $(this).addClass("activeDiv");
+});
+$("#demoDiv").bind("dblclick",function(){
+    $(this).removeClass("activeDiv");
+});
+$("#btnClick").bind("click",function(){
+    alert("Одинарний клік");
+});
+$("#btnDbl").bind("dblclick",function(){
+    alert("Подвійний клік");
+});
+$("#showImg").click(function(){
+    $("#imgBox").show();
+});
+$("#imgBox").click(function(){
+    $(this).hide();
+});
+$("#imgBox").mouseover(function(){
+    alert("Підпис до зображення");
+});
+$("form").submit(function(){
+    if($("input:first").val()=="correct"){
+        $("span").text("Перевіряємо...").show();
+        return true;
+    }
+    $("span").text("Неправильно!").show().fadeOut(1000);
+    return false;
+});
+});
+</script>
+</head>
+<body>
+<h1>Контент сторінки</h1>
+<a href="#" class="button">Натисніть, щоб показати текст</a>
+<div id="hide_text">Демонстраційний прихований текст</div>
+<hr>
+<p>Перший абзац</p>
+<p>Середній абзац</p>
+<p>Останній абзац</p>
+<hr>
+<h3>Клік/Подвійний клік на DIV</h3>
+<div id="demoDiv">
+Натисніть один раз — з'явиться рамка.
+<br>
+Подвійний клік — рамка зникне.
+</div>
+<h3>Кнопки</h3>
+<button id="btnClick">Одинарний клік</button>
+<button id="btnDbl">Подвійний клік</button>
+<hr>
+<h3>Зображення</h3>
+<p id="showImg" style="color:blue;cursor:pointer;">Показати зображення</p>
+<img id="imgBox" src="https://cdn.pixabay.com/photo/2017/11/09/21/41/cat-2934720_1280.jpg" alt="Котик">
+<hr>
+<p>Введіть в текстове поле слово 'correct'</p>
+<form action="javascript:alert('Успішно!');">
+<div>
+<input type="text">
+<input type="submit" value="Перевірити">
+</div>
+</form>
+<span></span>
+</body>
+</html>
