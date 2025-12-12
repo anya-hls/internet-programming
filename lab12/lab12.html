@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна 12 - jQuery анімація</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        #box1, #box2, #box3, #logo {
+            margin: 10px;
+            text-align: center;
+            line-height: normal;
+            font-weight: bold;
+            position: relative;
+        }
+        #box1 { width:150px; height:150px; background-color: red; color:white; line-height:150px;}
+        #box2 { width:150px; height:150px; background-color: blue; color:white; line-height:150px; display:none; }
+        #box3 { width:150px; height:150px; background-color: green; color:white; line-height:150px; }
+        #logo { width:200px; height:200px; margin-top:20px; }
+        #logo img { width:100%; height:100%; }
+        button { margin: 5px; }
+    </style>
+</head>
+<body>
+<h2 id="title">Лабораторна робота №11</h2>
+<h3>Завдання 1 — jQuery ефекти</h3>
+<div id="box1">fadeIn/fadeOut</div>
+<div id="box2">slideDown/slideToggle</div>
+<div id="box3">toggle/delay/clearQueue</div>
+<button id="btnFadeIn">fadeIn</button>
+<button id="btnFadeOut">fadeOut</button>
+<button id="btnSlideDown">slideDown</button>
+<button id="btnSlideToggle">slideToggle</button>
+<button id="btnToggle">toggle</button>
+<button id="btnDelayQueue">delay + clearQueue</button>
+
+<h3>Завдання 2 — Анімований логотип</h3>
+<div id="logo">
+    <img src="logo.jpg" alt="Логотип">
+</div>
+<button id="btnAnimateLogo">Анімувати логотип</button>
+
+<script>
+$(document).ready(function(){
+
+    $('#btnFadeIn').click(function(){ $('#box1').fadeIn(1000); });
+    $('#btnFadeOut').click(function(){ $('#box1').fadeOut(1000); });
+    $('#btnSlideDown').click(function(){ $('#box2').slideDown(1000); });
+    $('#btnSlideToggle').click(function(){ $('#box2').slideToggle(1000); });
+    $('#btnToggle').click(function(){ $('#box3').toggle(500); });
+    $('#btnDelayQueue').click(function(){
+        $('#box3').clearQueue().fadeOut(500).delay(1000).fadeIn(500).dequeue();
+    });
+
+    $('#btnAnimateLogo').click(function(){
+        $('#logo').animate(
+            { width: '300px', height: '300px', opacity: 0.5, left: '+=50px', top: '+=50px' }, 
+            {
+                duration: 1500,
+                easing: 'swing',
+                complete: function(){ $(this).css('border','2px solid orange'); },
+                queue: true
+            }
+        ).animate({width:'200px', height:'200px', opacity:1, left:'-=50px', top:'-=50px'},1500);
+    });
+
+});
+</script>
+</body>
+</html>
