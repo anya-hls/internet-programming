@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна 11 - jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .highlight { color: red; font-weight: bold; }
+        #box { width:150px; height:150px; background-color:yellow; margin-bottom:10px; }
+        button { margin: 3px; }
+    </style>
+</head>
+<body>
+<h2 id="title">Лабораторна робота №11</h2>
+<input type="text" id="input" value="Текст у полі">
+<button id="btnHtml">.html()</button>
+<button id="btnCss">.css()</button>
+<button id="btnVal">.val()</button>
+<button id="btnAttr">.attr()</button>
+<button id="btnRemoveAttr">.removeAttr()</button>
+
+<h2>Завдання 2</h2>
+<div id="box">Box</div>
+<button id="btnWrap">.wrap()</button>
+<button id="btnUnwrap">.unwrap()</button>
+<button id="btnHeight">.height()</button>
+<button id="btnPosition">.position()</button>
+
+<h2>Завдання 3</h2>
+<ul id="list">
+    <li class="item">Пункт 1</li>
+    <li class="item">Пункт 2</li>
+    <li class="item">Пункт 3</li>
+</ul>
+<button id="btnFind">.find()</button>
+<button id="btnNot">.not()</button>
+<button id="btnFirst">.first()</button>
+<button id="btnAdd">.add()</button>
+<button id="btnOffsetParent">.offsetParent()</button>
+
+<h2>Завдання 4</h2>
+<ul class="filter-list">
+    <li>Елемент 1</li>
+    <li>Елемент 2</li>
+    <li>Елемент 3</li>
+    <li>Елемент 4</li>
+    <li>Елемент 5</li>
+    <li>Елемент 6</li>
+</ul>
+<button id="btnFilterClass">Filter клас</button>
+<button id="btnFilterThird">Кожен третій</button>
+
+<h2>Завдання 5</h2>
+<button id="btnTrim">$.trim()</button>
+<button id="btnType">$.type()</button>
+<button id="btnUniqueSort">$.uniqueSort()</button>
+<button id="btnContains">$.contains()</button>
+
+<script>
+$(document).ready(function(){
+    $('#btnHtml').click(function(){ $('#title').html('Новий заголовок через .html()'); });
+    $('#btnCss').click(function(){ $('#title').css({'color':'blue','font-size':'24px'}); });
+    $('#btnVal').click(function(){ alert('Значення поля: '+$('#input').val()); $('#input').val('Новий текст у полі'); });
+    $('#btnAttr').click(function(){ alert('ID елемента: '+$('#title').attr('id')); $('#title').attr('title','Підказка заголовка'); $('#title').attr({'data-role':'header','data-index':'1'}); $('#title').attr('data-count',function(i,val){ return val?parseInt(val)+1:1; }); });
+    $('#btnRemoveAttr').click(function(){ $('#title').removeAttr('data-role data-index data-count title'); alert('Атрибути видалено'); });
+
+    $('#btnWrap').click(function(){ $('#box').wrap('<div style="border:2px solid red; padding:10px;"></div>'); });
+    $('#btnUnwrap').click(function(){ $('#box').unwrap(); });
+    $('#btnHeight').click(function(){ $('#box').height(function(i,h){ return h+20; }); });
+    $('#btnPosition').click(function(){ let pos=$('#box').position(); alert('Position: top='+pos.top+', left='+pos.left); });
+
+    $('#btnFind').click(function(){ $('#list').find('li').css('color','green'); });
+    $('#btnNot').click(function(){ $('#list li').not(':first').css('color','red'); });
+    $('#btnFirst').click(function(){ $('#list li').first().css('font-weight','bold'); });
+    $('#btnAdd').click(function(){ $('#list li').first().add($('#list li').last()).css('background-color','yellow'); });
+    $('#btnOffsetParent').click(function(){ alert('Offset parent: '+$('#list li:first').offsetParent().prop('tagName')); });
+
+    $('#btnFilterClass').click(function(){ $('.filter-list li').filter(':even').css('color','blue').text('modify'); });
+    $('#btnFilterThird').click(function(){ $('.filter-list li').filter(':nth-child(3n)').css('background-color','orange').text('modify'); });
+
+    $('#btnTrim').click(function(){ let str="   Текст з пробілами   "; alert('Trim: "'+$.trim(str)+'"'); });
+    $('#btnType').click(function(){ alert($.type(123)); alert($.type('abc')); alert($.type([1,2,3])); alert($.type({a:1})); alert($.type(null)); });
+    $('#btnUniqueSort').click(function(){ let arr=[2,3,1,2,4,3]; let elems=$(arr).get(); let unique=$.uniqueSort(elems); alert('UniqueSort: '+unique); });
+    $('#btnContains').click(function(){ alert($.contains(document.body,$('#title')[0])); });
+});
+</script>
+</body>
+</html>
